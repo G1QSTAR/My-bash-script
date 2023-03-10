@@ -1,20 +1,10 @@
-import math
-
-print("Введите коэффициенты для уравнения")
-print("ax^2 + bx + c = 0:")
-a = float(input("a = "))
-b = float(input("b = "))
-c = float(input("c = "))
-
-discr = b ** 2 - 4 * a * c
-print("Дискриминант D = %.2f" % discr)
-
-if discr > 0:
-    x1 = (-b + math.sqrt(discr)) / (2 * a)
-    x2 = (-b - math.sqrt(discr)) / (2 * a)
-    print("x1 = %.2f \nx2 = %.2f" % (x1, x2))
-elif discr == 0:
-    x = -b / (2 * a)
-    print("x = %.2f" % x)
-else:
-    print("Корней нет")
+import requests
+city = "Moscow,RU"
+appid = "47d8548eef32e8c8d677907e9daa2511"
+res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
+                   params={'q': city, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+data = res.json()
+print("Прогноз погоды на неделю:")
+for i in data['list']:
+    print("Дата <", i['dt_txt'], "> \r\nТемпература <", '{0:+3.0f}'.format(i['main']['temp']), "> \r\nПогодные условия <", i['weather'][0]['description'], ">", "\r\nВетер:",i['wind']['speed'], "\r\nВидимость:",i['visibility'])
+    print("____________________________")
